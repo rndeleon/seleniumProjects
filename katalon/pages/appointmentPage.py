@@ -25,13 +25,19 @@ class AppointmentPage:
         self.dateDayText =  (By.XPATH, "//div[@class='datepicker-days']//th[@class='datepicker-switch']")
         self.dateText =  (By.XPATH, "//input[@type='text' and contains(@id,'date')]")
 
-    #def selectFacilityAndProgram(self, facility, readmission, healthcare):
-    def selectFacilityAndProgram(self, facility, readmission: bool):
+        self.bookButton = (By.XPATH, "//button[@id='btn-book-appointment']")
+
+    def selectFacilityAndProgram(self, facility, readmission: bool, healthcare , date):
         facility_path = (By.XPATH, f"//option[contains(@value,'{facility}')]")
+        healthcare_program = (By.XPATH, f"//input[@type='radio' and contains(@value,'{healthcare}')]")
         WebDriverWait(self.driver, 5).until(EC.element_to_be_clickable(self.facilityDropdown)).click()
         WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located(facility_path)).click()
         if readmission:
             WebDriverWait(self.driver, 5).until(EC.element_to_be_clickable(self.readmissionCheckbox)).click()
+        WebDriverWait(self.driver, 5).until(EC.element_to_be_clickable(healthcare_program)).click()
+        WebDriverWait(self.driver, 5).until(EC.element_to_be_clickable(self.dateText)).send_keys(date)
+        WebDriverWait(self.driver, 5).until(EC.element_to_be_clickable(self.bookButton)).click()
+
 
 
 
